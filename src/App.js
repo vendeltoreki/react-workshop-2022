@@ -12,20 +12,34 @@ function Amount(props) {
     return (
 	<div className={val < 0 ? 'negativeNumber' : ''}>
 		<label htmlFor="amount">{props.name}: </label>
-		{props.amountValue ? <span>{props.amountValue}</span> : <input id="amount" onChange={change} />}
+		{props.amountValue != undefined ? <span>{props.amountValue}</span> : <input id="amount" onChange={change} />}
 	</div>
 	);
 }
 
+var lastActiveTime = Date.now();
+
 function App() {
-	const [eur, setEur] = React.useState('')
+	const [eur, setEur] = React.useState(0)
+	const [crashCoefficient, setCrashCoefficient] = React.useState(1)
 
     function exchangeRate() {
-		return Math.random() * 10000;
+		return Math.random() * 10000 * crashCoefficient;
     }
 
 	function changeEur(value) {
 		setEur(value)
+		console.log('Date.now()=' + Date.now())
+		lastActiveTime = Date.now();
+		setTimeout(crash, 5000)
+	}
+
+	function crash() {
+		const inactivityTime = Date.now() - lastActiveTime
+		console.log('inactivityTime=' + inactivityTime)
+		if (inactivityTime >= 5000) {
+			setCrashCoefficient(0)
+		}
 	}
 
   return (
