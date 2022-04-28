@@ -11,7 +11,7 @@ function Amount(props) {
     return (
 	<div className={val < 0 ? 'negativeNumber' : ''}>
 		<label htmlFor="amount">{props.name}: </label>
-		<input id="amount" onChange={change} />
+		{props.amountValue ? <span>{props.amountValue}</span> : <input id="amount" onChange={change} />}
 	</div>
 	);
 }
@@ -20,6 +20,7 @@ function App() {
   return (
     <div className="App">
 		<Amount name="Euros" />
+		<Amount name="BTC" amountValue="0" />
     </div>
   );
 }
