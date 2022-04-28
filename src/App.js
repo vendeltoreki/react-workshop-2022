@@ -6,6 +6,7 @@ function Amount(props) {
 
 	function change(event) {
 		setVal(event.target.value)
+		props.onAmountChanged(event.target.value)
 	}
 
     return (
@@ -17,10 +18,20 @@ function Amount(props) {
 }
 
 function App() {
+	const [eur, setEur] = React.useState('')
+
+    function exchangeRate() {
+		return Math.random() * 10000;
+    }
+
+	function changeEur(value) {
+		setEur(value)
+	}
+
   return (
     <div className="App">
-		<Amount name="Euros" />
-		<Amount name="BTC" amountValue="0" />
+		<Amount name="Euros" onAmountChanged={changeEur} />
+		<Amount name="BTC" amountValue={eur * exchangeRate()} />
     </div>
   );
 }
